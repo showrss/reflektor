@@ -36,6 +36,7 @@ if($_GET['ih']) {
 			header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 		} elseif($exists and !$notnull and !$mature) {
 			// error: 
+			header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found', true, 404);
 			echo '<h1>Torrent not found</h1><p>Torrent not found in any of the providers. Retrying later.<br /><small>Cached miss.</small></p>';
 		} else {
 			// not exists, null or not, mature
@@ -72,10 +73,12 @@ if($_GET['ih']) {
 				header('X-Accel-Redirect: /torrents/'.$ih.'.torrent');
 				header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 			} else {
+				header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found', true, 404);
 				echo '<h1>Torrent not found</h1><p>Torrent not found in any of the providers. Retrying later.<br /><small>Try and miss.</small></p>';
 			}
 		}
 	} else {
+		header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found', true, 404);
 		echo '<h1>Invalid info_hash</h1><p>Please verify it and try again.</p>';
 	}
 }
