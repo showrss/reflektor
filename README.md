@@ -22,6 +22,7 @@ Configuration
         server_name reflektor.karmorra.info;
     
         rewrite ^/torrent/(.+)\.torrent$ /serve.php?ih=$1 last;
+        rewrite ^/torrent/?$ / redirect;
     
     	location /torrents/ {
     		internal;
