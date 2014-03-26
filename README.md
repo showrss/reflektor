@@ -22,6 +22,7 @@ Configuration
         server_name reflektor.karmorra.info;
     
         rewrite "^/torrent/([A-Fa-f0-9]{40})\.[Tt][Oo][Rr]{2}[Ee][Nn][Tt]$" /serve.php?ih=$1 last;
+        rewrite ^/torrent/?$ / redirect;
     
     	location /torrents/ {
     		internal;
