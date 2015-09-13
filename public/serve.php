@@ -2,9 +2,7 @@
 /* reflektor: torrent cache */
 
 $GLOBALS['CACHES'] = array( 'torrage.com' 	=>	'http://torrage.com/torrent/{info_hash}.torrent',
-							'zoink.it' 		=>	'http://zoink.it/torrent/{info_hash}.torrent',
-							'torcache.net' 	=> 	'http://torcache.net/torrent/{info_hash}.torrent',
-							'torra.ws' 		=>	'http://torra.ws/torrent/{info_hash}.torrent'	);
+							'torcache.net' 	=> 	'http://torcache.net/torrent/{info_hash}.torrent');
 
 
 $GLOBALS['LOCATION'] = dirname(__FILE__).'/../cache/';
@@ -48,6 +46,7 @@ if($_GET['ih']) {
 
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $location);
+				curl_setopt($ch, CURLOPT_REFERER, $location);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
 				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
