@@ -1,5 +1,7 @@
 <?php
 /* reflektor: torrent cache */
+set_time_limit(15);
+header("X-Served-By: ".php_uname('n'));
 
 $GLOBALS['CACHES'] = array( 'torrage.com' 	=>	'http://torrage.com/torrent/{info_hash}.torrent',
 							'torcache.net' 	=> 	'http://torcache.net/torrent/{info_hash}.torrent');
@@ -10,12 +12,12 @@ $GLOBALS['LOCATION'] = dirname(__FILE__).'/../cache/';
 if($_GET['ih']) {
 	$ih = trim(strtoupper($_GET['ih']));
 	$ih = preg_replace('/[^A-Z0-9]/', '', $ih);
-
+	
 	if(strlen($ih) == 40) {
 		$loc = $GLOBALS['LOCATION'].$ih.'.torrent';
 		$exists = (@file_exists($loc))?true:false;
 		$notnull = (@filesize($loc)>0)?true:false;
-
+		
 		if($exists) {
 			$diff = time()-filemtime($loc);
 			$mature = ($diff>3600)?true:false;

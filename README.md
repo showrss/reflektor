@@ -63,6 +63,10 @@ reflektor requires:
             access_log off;
         }
     }
+    
+## Proxy configuration:
+Proxy servers can be used when connecting to the upstream providers. See 
+`public/providers.inc.php` for details and syntax.
 
 # Recommendations
 * It is advisable to configure a deadicated php-fpm pool for reflektor, with
