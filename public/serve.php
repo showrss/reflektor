@@ -16,14 +16,15 @@ $cacheurl = "/torrents";
 $providers = array();
 include('providers.inc.php');
 
-$cachedir = dirname(__FILE__).'/../cache/';
+$cachedir = realpath(dirname(__FILE__).'/../cache');
 
 if($_GET['ih']) {
 	$ih = trim(strtoupper($_GET['ih']));
 	$ih = preg_replace('/[^A-Z0-9]/', '', $ih);
+	$dir0 = substr($ih, 0, 2);
 	
 	if(strlen($ih) == 40) {
-		$loc = $cachedir.$ih.'.torrent';
+		$loc = $cachedir.'/'.$dir0.'/'.$ih.'.torrent';
 		$exists = (@file_exists($loc))?true:false;
 		$notnull = (@filesize($loc)>0)?true:false;
 		
@@ -46,7 +47,7 @@ if($_GET['ih']) {
 			}
 			
 			header('Content-type: application/x-bittorrent');
-			header('X-Accel-Redirect: '.$cacheurl.'/'.$ih.'.torrent');
+			header('X-Accel-Redirect: '.$cacheurl.'/'.$dir0.'/'.$ih.'.torrent');
 			header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 			header("X-Cache: HIT");
 			header("X-Cache-Age: $diff");
@@ -64,6 +65,7 @@ if($_GET['ih']) {
 			serve_log("[$ih] Cache miss ($loc) Age=$diff. Mature=$mature. ".
 			    "Exists=$exists. Notnull=$notnull.");
 			// not exists, null or not, mature
+			@mkdir(dirname($loc), 0755, true);
 			touch($loc);
 			$hit = false;
 			$data = null;
@@ -135,7 +137,7 @@ if($_GET['ih']) {
 				touch($loc);
 				
 				header('Content-type: application/x-bittorrent');
-				header('X-Accel-Redirect: '.$cacheurl.'/'.$ih.'.torrent');
+				header('X-Accel-Redirect: '.$cacheurl.'/'.$dir0.'/'.$ih.'.torrent');
 				header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 				header('X-Cache: MISS');
 				header('X-Cache-Age: 0');
