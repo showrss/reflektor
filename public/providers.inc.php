@@ -25,6 +25,10 @@
  *     // The default is to use no proxy.
  */
 $providers = array(
+    array(  // itorrents.org
+        'url' => 'http://itorrents.org/torrent/{info_hash}.torrent',
+        'useragent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.63 Safari/537.36',
+        ),
     array(	// thetorrent.org
         'url' => 'http://thetorrent.org/{info_hash}.torrent?_=',
         'cookie' => 'thetorrent=1',
