@@ -51,6 +51,7 @@ if($_GET['ih']) {
 			header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 			header("X-Cache: HIT");
 			header("X-Cache-Age: $diff");
+			header('Cache-Control:public, max-age=315360000');	// CACHE FOREVER (10 years)
 		
 		} elseif($exists and !$notnull and !$mature) {
 			// error: 
@@ -141,11 +142,13 @@ if($_GET['ih']) {
 				header('Content-Disposition: attachment; filename="'.$ih.'.torrent"');
 				header('X-Cache: MISS');
 				header('X-Cache-Age: 0');
+				header('Cache-Control:public, max-age=315360000');	// CACHE FOREVER (10 years)
 			} else {
 				serve_log("[$ih] Fetch failed.");
 				header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found', true, 404);
 				header('X-Cache: MISS');
 				header('X-Cache-Age: 0');
+				header('Cache-Control:public, max-age=900');	// okay to cache 404 for a short time
 				echo '<h1>Torrent not found</h1><p>Torrent not found in any of ' .
 				    'the providers. Retrying later.<br /><small>Try and miss.' .
 				    '</small></p>';
@@ -154,6 +157,7 @@ if($_GET['ih']) {
 	} else {
 		serve_log("[$ih] Invalid hash. Exiting 404.");
 		header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found', true, 404);
+		header('Cache-Control:no-store');	// okay to cache 404 for a short time
 		echo '<h1>Invalid info_hash</h1><p>Please verify it and try again.</p>';
 	}
 }
