@@ -107,12 +107,12 @@ if($_GET['ih']) {
 					    "Googlebot/2.1 (+http://www.google.com/bot.html)");
 				if(isset($provider['cookie']))
 					curl_setopt($ch, CURLOPT_COOKIE, $provider['cookie']);
-				// Aborts downloads larger than 2MB
 				curl_setopt($ch, CURLOPT_HEADERFUNCTION,
 				    function($ch, $headers) {
 				    	serve_log("Returned Headers: $headers");
 				    	return strlen($headers);
 				    });
+				// Aborts downloads larger than 2MB
 				curl_setopt($ch, CURLOPT_PROGRESSFUNCTION,
 				    function($dls, $dl, $uls, $ul) {
 				    	if($dl > (2048 * 1024))
